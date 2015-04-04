@@ -50,10 +50,6 @@ command /firework [<text="pomoc">]:
 # ball, ball large, burst, creeper, star // typy fajerwerków #
 every second:
 	{fajerwerki} is true:
-		execute server command "/fwglobalpusc"
-command /fwglobalpusc:
-	permission: launch.firework
-	trigger:
 		add ball large to {_fireworktype::*}
 		add creeper to {_fireworktype::*}
 		add ball to {_fireworktype::*}
