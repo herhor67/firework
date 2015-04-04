@@ -1,0 +1,77 @@
+variables:
+	{fajerwerki} = true
+options:
+	tag: &7[&4Fire&fWork&7]
+
+on place of sponge:
+	name of player's tool is "&6Firework dodaj":
+		cancel event
+		loop {fireworks::*}:
+			loop-value is location of event-block:
+				send "{@tag} &cTu juz jest fajerwerek!"
+				stop
+		add location of block to {fireworks::*}
+		send "{@tag} &6Dodano fajerwerek!"
+#------------------------------------------------------------#
+	name of player's tool is "&6Firework usun":
+		cancel event
+		loop {fireworks::*}:
+			loop-value is location of event-block:
+				remove location of block from {fireworks::*}
+				send "{@tag} &6Usunięto fajerwerek!"
+				stop
+		send "{@tag} &cTu nie ma fajerwerka!"
+
+command /firework [<text="pomoc">]:
+	permission: fireworks.*
+	trigger:
+		arg is "pomoc":
+			send "{@tag}"
+			send "&c/firework dodaj &6- daje gąbkę do dodania fajerwerków"
+			send "&c/firework usun &6- daje gąbkę do usunięcia fajerwerków"
+			send "&c/firework przelacz &6- włącza lub wyłącza fajerwerki"
+		arg is "dodaj":
+			give player 1 sponge named "&6Firework dodaj"
+		arg is "usun":
+			give player 1 sponge named "&6Firework usun"
+		arg is "przelacz":
+			{fajerwerki} is true:
+				set {fajerwerki} to false
+				send "{@tag} &6- &c%{fajerwerki}%"
+				broadcast "{@tag} &6Fajerwerki zostały włączone!"
+				stop
+			{fajerwerki} is false:
+				set {fajerwerki} to true
+				send "{@tag} &6- &c%{fajerwerki}%"
+				broadcast "{@tag} &6Fajerwerki zostały wyłączone!"
+
+
+
+# ball, ball large, burst, creeper, star // typy fajerwerków #
+every second:
+	{fajerwerki} is true:
+		execute server command "/fwglobalpusc"
+command /fwglobalpusc:
+	permission: launch.firework
+	trigger:
+		add ball large to {_fireworktype::*}
+		add creeper to {_fireworktype::*}
+		add ball to {_fireworktype::*}
+		add star to {_fireworktype::*}
+		add burst to {_fireworktype::*}
+#===========================================#
+		add blue to {_color::*}  # lapis, ok
+		add green to {_color::*}  # kaktus, ok
+		add aqua to {_color::*}  # jasnoniebieski, ok
+		add red to {_color::*}  # czerwony, ok
+		add purple to {_color::*}  # purpurowy, ok
+		add gold to {_color::*}  # pomaranczowy, ok
+		add lime to {_color::*}  # jasnozielony, ok
+		add pink to {_color::*}  # różowy, ok
+		add yellow to {_color::*}  # żółty, ok
+		add white to {_color::*}  # biały, ok
+		loop {fireworks::*}:
+			set {_czas} to 2 or 3
+			set {_fwtype} to a random element out of {_fireworktype::*}
+			set {_colorchoice} to a random element out of {_color::*}
+			launch flickering trailing {_fwtype} firework colored {_colorchoice} at loop-value timed {_czas}
